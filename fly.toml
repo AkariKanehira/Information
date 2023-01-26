@@ -1,6 +1,6 @@
-# fly.toml file generated for info57 on 2023-01-25T04:38:35+09:00
+# fly.toml file generated for info122712 on 2023-01-26T19:56:37+09:00
 
-app = "info57"
+app = "info122712"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []

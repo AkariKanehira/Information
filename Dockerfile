@@ -23,9 +23,9 @@ FROM quay.io/evl.ms/fullstaq-ruby:${RUBY_VERSION}-${VARIANT} as base
 
 LABEL fly_launch_runtime="rails"
 
-ARG NODE_VERSION=16.13.2
-ARG YARN_VERSION=1.22.17
-ARG BUNDLER_VERSION=2.2.33
+ARG NODE_VERSION=16.18.0
+ARG YARN_VERSION=1.22.19
+ARG BUNDLER_VERSION=2.2.32
 
 ARG RAILS_ENV=production
 ENV RAILS_ENV=${RAILS_ENV}
@@ -80,7 +80,8 @@ RUN bundle install && rm -rf vendor/bundle/ruby/*/cache
 FROM build_deps as node_modules
 
 COPY package*json ./
-RUN npm install
+COPY yarn.* ./
+RUN yarn install
 
 #######################################################################
 
@@ -114,7 +115,6 @@ COPY . .
 # Adjust binstubs to run on Linux and set current working directory
 RUN chmod +x /app/bin/* && \
     sed -i 's/ruby.exe\r*/ruby/' /app/bin/* && \
-    sed -i 's/ruby\r*/ruby/' /app/bin/* && \
     sed -i '/^#!/aDir.chdir File.expand_path("..", __dir__)' /app/bin/*
 
 # The following enable assets to precompile on the build server.  Adjust
